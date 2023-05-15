@@ -9,8 +9,9 @@ import {
   CardActions,
   Grid,
   Rating,
+  Badge,
 } from "@mui/material";
-import { red } from "@mui/material/colors";
+import { blue } from "@mui/material/colors";
 
 export interface AdvisorType {
   id: string;
@@ -21,6 +22,7 @@ export interface AdvisorType {
   image: string;
   status: string;
   review: number;
+  languages: string[];
 }
 interface AdvisorProps {
   advisor: AdvisorType;
@@ -33,15 +35,22 @@ const Advisor = (props: AdvisorProps) => {
       xs={12}
       sm={4}
       md={3}
-      padding={"20px 30px 20px 30px"}
+      padding={"10px 10px 10px 10px"}
       boxShadow={"50px"}
     >
       <Card>
         <CardHeader
           avatar={
-            <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-              {advisor.name.charAt(0)}
-            </Avatar>
+            <Badge
+              color={advisor.status == "online" ? "success" : "error"}
+              overlap="circular"
+              badgeContent=" "
+              variant="dot"
+            >
+              <Avatar sx={{ bgcolor: blue[200] }} aria-label="recipe">
+                {advisor.name.charAt(0)}
+              </Avatar>
+            </Badge>
           }
           title={advisor.name}
         />

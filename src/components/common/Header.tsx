@@ -15,7 +15,7 @@ const Header = ({ children }: PropsWithChildren) => {
       }}
     >
       <Toolbar>
-        Advisors List
+        Advisors
         {children}
       </Toolbar>
     </AppBar>

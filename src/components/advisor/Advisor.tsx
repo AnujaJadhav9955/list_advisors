@@ -33,16 +33,18 @@ const Advisor = (props: AdvisorProps) => {
     <Grid
       item
       xs={12}
-      sm={4}
+      sm={6}
       md={3}
       padding={"10px 10px 10px 10px"}
       boxShadow={"50px"}
+      data-testid="advisor"
     >
       <Card>
         <CardHeader
+          data-testid="title"
           avatar={
             <Badge
-              color={advisor.status == "online" ? "success" : "error"}
+              color={advisor.status === "online" ? "success" : "error"}
               overlap="circular"
               badgeContent=" "
               variant="dot"
@@ -61,7 +63,11 @@ const Advisor = (props: AdvisorProps) => {
           alt="Paella dish"
         />
         <CardContent>
-          <Typography variant="body2" color="text.secondary">
+          <Typography
+            data-testid="jobTitle"
+            variant="body2"
+            color="text.secondary"
+          >
             {advisor.jobTitle}
           </Typography>
           <Typography variant="body2" color="text.secondary">
@@ -76,4 +82,4 @@ const Advisor = (props: AdvisorProps) => {
   );
 };
 
-export default Advisor;
+export default React.memo(Advisor);

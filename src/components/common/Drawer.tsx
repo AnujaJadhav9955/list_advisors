@@ -1,26 +1,24 @@
 import React from "react";
-import Drawer from "@mui/material/Drawer";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Divider from "@mui/material/Divider";
+import { Drawer as MaterialDrawer, Toolbar, Divider, Box } from "@mui/material";
 import SortInput from "./SortInput";
 import Filter from "./Filter";
 
 const drawerWidth = 240;
 
-const LeftDrawer = (props: any) => {
+const Drawer = (props: any) => {
   const { window, mobileOpen, handleDrawerToggle } = props;
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
-  const drawer = (
-    <div>
+  const drawerKit = (
+    <>
+      <Toolbar />
       <Toolbar />
       <Divider />
       <Filter />
       <Divider />
       <SortInput />
-    </div>
+    </>
   );
 
   return (
@@ -29,7 +27,8 @@ const LeftDrawer = (props: any) => {
       sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
       aria-label="filters"
     >
-      <Drawer
+      <MaterialDrawer
+        data-testid="drawer"
         container={container}
         variant={mobileOpen ? "temporary" : "permanent"}
         {...(mobileOpen && { open: true })}
@@ -48,10 +47,10 @@ const LeftDrawer = (props: any) => {
           },
         }}
       >
-        {drawer}
-      </Drawer>
+        {drawerKit}
+      </MaterialDrawer>
     </Box>
   );
 };
 
-export default LeftDrawer;
+export default React.memo(Drawer);

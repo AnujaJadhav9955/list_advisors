@@ -1,6 +1,5 @@
 import React from "react";
-import { FormControl, InputLabel, Box } from "@mui/material";
-import NativeSelect from "@mui/material/NativeSelect";
+import { FormControl, InputLabel, Box, NativeSelect } from "@mui/material";
 import { useContext } from "react";
 import {
   AdvisorContext,
@@ -16,7 +15,6 @@ const SortInput = () => {
         <InputLabel variant="standard" htmlFor="uncontrolled-native">
           Sort By
         </InputLabel>
-
         <NativeSelect
           defaultValue={"none"}
           onChange={(event) => setSortBy(event.target.value)}
@@ -24,11 +22,10 @@ const SortInput = () => {
         >
           <option value={"all"}>All</option>
           <option value={"rating"}>Rating</option>
-          <option value={"experience"}>Experience</option>
         </NativeSelect>
       </FormControl>
     </Box>
   );
 };
 
-export default SortInput;
+export default React.memo(SortInput);

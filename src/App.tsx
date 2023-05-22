@@ -1,14 +1,31 @@
 import React, { useState } from "react";
 import "./App.css";
-import AdvisorList from "./components/Home/AdvisorList";
-import AppBar from "@mui/material/AppBar";
+import AdvisorList from "./components/advisorList/AdvisorList";
+import { AppBar, Box, IconButton, Toolbar, Typography } from "@mui/material";
 import { AdvisorContext } from "./context/AdvisorContext";
 import LeftDrawer from "./components/common/Drawer";
-import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
+import { onError } from "@apollo/client/link/error";
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  HttpLink,
+  from,
+} from "@apollo/client";
+
+const errorLink = onError(({ graphqlErrors, NetworkErrors }: any) => {
+  if (graphqlErrors) {
+    graphqlErrors.forEach(({ message }: any) => {
+      alert(`Graphql error ${message}`);
+    });
+  }
+});
+
+const link = from([
+  errorLink,
+  new HttpLink({ uri: "http://localhost:6969/graphql" }),
+]);
 
 const drawerWidth = 240;
 
@@ -25,8 +42,12 @@ function App() {
     french: false,
     spanish: false,
   });
+  const client = new ApolloClient({
+    cache: new InMemoryCache(),
+    link: link,
+  });
 
-  const handleChange = (event: any) => {
+  const handleStatusChange = (event: any) => {
     setStateStatus({
       ...status,
       [event.target.name]: event.target.checked,
@@ -45,58 +66,61 @@ function App() {
   };
 
   return (
-    <AdvisorContext.Provider
-      value={{
-        sortBy,
-        setSortBy,
-        status,
-        handleChange,
-        languages,
-        handleLanguageChange,
-      }}
-    >
-      <Box sx={{ display: "flex", backgroundColor: "#f5f5f5" }}>
-        <AppBar
-          position="fixed"
-          sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        >
-          <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="start"
-              onClick={handleDrawerToggle}
-              sx={{ mr: 2, display: { sm: "none" } }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ height: "50px" }}
-            >
-              Advisors
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <LeftDrawer
-          mobileOpen={mobileOpen}
-          handleDrawerToggle={handleDrawerToggle}
-        />
-        <Box
-          component="main"
-          sx={{
-            flexGrow: 1,
-            p: 3,
-            width: { sm: `calc(100% - ${drawerWidth}px)` },
-          }}
-        >
-          <Toolbar />
-          <AdvisorList />
+    <ApolloProvider client={client}>
+      <AdvisorContext.Provider
+        value={{
+          sortBy,
+          setSortBy,
+          status,
+          handleStatusChange,
+          languages,
+          handleLanguageChange,
+        }}
+      >
+        <Box sx={{ display: "flex", backgroundColor: "#f5f5f5" }}>
+          <AppBar
+            position="fixed"
+            sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          >
+            <Toolbar>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                edge="start"
+                onClick={handleDrawerToggle}
+                sx={{ mr: 2, display: { sm: "none" } }}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography
+                variant="h4"
+                noWrap
+                component="div"
+                sx={{ height: "60px", margin: "20px 0 20px 0" }}
+              >
+                Advisors
+              </Typography>
+            </Toolbar>
+          </AppBar>
+          <LeftDrawer
+            mobileOpen={mobileOpen}
+            handleDrawerToggle={handleDrawerToggle}
+          />
+          <Box
+            component="main"
+            sx={{
+              flexGrow: 1,
+              p: 3,
+              width: { sm: `calc(100% - ${drawerWidth}px)` },
+            }}
+          >
+            <Toolbar />
+            <Toolbar />
+            <AdvisorList />
+          </Box>
         </Box>
-      </Box>
-    </AdvisorContext.Provider>
+      </AdvisorContext.Provider>
+    </ApolloProvider>
   );
 }
 

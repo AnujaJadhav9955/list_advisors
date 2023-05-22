@@ -1,53 +1,39 @@
 import React, { useEffect, useState } from "react";
-import { faker } from "@faker-js/faker";
-import Advisor from "./Advisor";
+import Advisor from "../advisor/Advisor";
 import { Grid } from "@mui/material";
-import { AdvisorType } from "./Advisor";
+import { AdvisorType } from "../advisor/Advisor";
 import { useContext } from "react";
 import { AdvisorContext } from "../../context/AdvisorContext";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useQuery } from "@apollo/client";
+import { LOAD_ADVISORS } from "../../graphql/queries";
 
 const AdvisorList = () => {
   const { sortBy } = useContext(AdvisorContext);
   const { status, languages } = useContext(AdvisorContext);
   const [advisors, setAdvisors] = useState<AdvisorType[]>([]);
-  const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
 
-  useEffect(() => {
-    fetchData(page);
-  }, [page]);
-
-  const fetchData = (page: number) => {
-    const advisorsArray = [];
-    for (let i = 0; i < 10; i++) {
-      let record = faker.helpers.uniqueArray(
-        [
-          {
-            id: faker.string.uuid(),
-            name: faker.person.fullName(),
-            jobTitle: faker.person.jobTitle(),
-            desciption: faker.person.bio(),
-            badge: faker.image.avatarGitHub(),
-            image: faker.image.avatar(),
-            status: faker.helpers.arrayElement(["online", "offline"]),
-            review: faker.number.int({ min: 0, max: 5 }),
-            languages: faker.helpers.arrayElements([
-              "german",
-              "english",
-              "french",
-              "spanish",
-            ]),
-          },
-        ],
-        10
-      );
-      advisorsArray.push(...record);
-    }
-    if (page === 10) {
-      setHasMore(false);
-    }
-    setAdvisors([...advisors, ...advisorsArray]);
+  const { error, fetchMore } = useQuery(LOAD_ADVISORS, {
+    variables: {
+      offset: page,
+      limit: 10,
+    },
+    onCompleted: (data) => {
+      if (!advisors.length) {
+        const { Advisors } = data;
+        setAdvisors(Advisors);
+        setPage(page + 1);
+      }
+    },
+  });
+  const getMoreAdvisors = async () => {
+    const { data } = await fetchMore({
+      variables: { page: page },
+    });
+    const { Advisors } = data;
+    setAdvisors((prevAdvisors) => [...prevAdvisors, ...Advisors]);
+    setPage(page + 1);
   };
 
   const [filteredAdvisors, setFilteredAdvisors] =
@@ -77,19 +63,25 @@ const AdvisorList = () => {
     });
     if (lang.length > 0) {
       advisorsArray = advisorsArray.filter((advisor) => {
-        return advisor.languages.every((l) => lang.includes(l));
+        return advisor.languages.some((l) => lang.includes(l));
       });
     }
 
     setFilteredAdvisors(advisorsArray);
   }, [sortBy, status, languages, advisors]);
-
   return (
     <InfiniteScroll
-      dataLength={advisors.length}
-      next={() => setPage(page + 1)}
-      hasMore={hasMore}
-      loader={<h4>Loading...</h4>}
+      data-testid={"scroller"}
+      dataLength={advisors?.length}
+      next={getMoreAdvisors}
+      hasMore={page < 20}
+      loader={
+        error ? (
+          <h4>{error.message}</h4>
+        ) : (
+          <h4 data-testid="scroll">Loading...</h4>
+        )
+      }
       endMessage={
         <p style={{ textAlign: "center" }}>
           <b>Yay! You have seen it all</b>
@@ -97,7 +89,7 @@ const AdvisorList = () => {
       }
     >
       <Grid container bgcolor={"#f5f5f5"} overflow={"auto"}>
-        {filteredAdvisors.map((advisor: AdvisorType) => {
+        {filteredAdvisors?.map((advisor: AdvisorType) => {
           return <Advisor key={advisor.id} advisor={advisor} />;
         })}
       </Grid>
@@ -105,4 +97,4 @@ const AdvisorList = () => {
   );
 };
 
-export default AdvisorList;
+export default React.memo(AdvisorList);

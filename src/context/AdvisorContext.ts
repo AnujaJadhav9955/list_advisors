@@ -3,7 +3,7 @@ export interface AdvisorContextType {
     sortBy: string;
     setSortBy: (event: string) => void
     status: {online: boolean, offline: boolean};
-    handleChange: (event: Object) => void;
+    handleStatusChange: (event: Object) => void;
     handleLanguageChange: (event: Object) => void;
     languages: {german: boolean, english: boolean, french: boolean, spanish: boolean};
 }

@@ -5,12 +5,9 @@
 3. run npm install on both the repos
 4. run List_Advisors with command "npm start"
 5. run List_Advisors_BFF with command "npm start"
-6. got to localhost:3000 to check UI flow
+6. go to localhost:3000 to check UI flow
 7. If you want to check BFF got to localhost:6969/graphql
 8. To run unit test cases use npm test for both List_Advisors and List_Advisors_BFF
-
-## Note
-1. At the moment we are showing max 600 Advisors If we want more we can do that, by just giving greater value for "hasMore" option of infinite scroller in AdvisorList.
 
 ## Used Libraries And Tools
 
@@ -20,8 +17,9 @@
 4. Used faker to generate data
 5. Used react-testing-library for unit testing.
 6. Used graphql and Apollo client to manage data.
+7. Used express to serve data to frontend
 
 ## Future Scope
 1. more test cases
 2. Performance optimization
-3.
+3. Custom page size

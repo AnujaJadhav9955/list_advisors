@@ -44,17 +44,17 @@ const Advisor = (props: AdvisorProps) => {
           data-testid="title"
           avatar={
             <Badge
-              color={advisor.status === "online" ? "success" : "error"}
+              color={advisor.status === "Online" ? "success" : "error"}
               overlap="circular"
               badgeContent=" "
               variant="dot"
             >
               <Avatar sx={{ bgcolor: blue[200] }} aria-label="recipe">
-                {advisor.name.charAt(0)}
+                <h4>{advisor.name.charAt(0)}</h4>
               </Avatar>
             </Badge>
           }
-          title={advisor.name}
+          title={<h4>{advisor.name}</h4>}
         />
         <CardMedia
           component="img"
@@ -65,12 +65,12 @@ const Advisor = (props: AdvisorProps) => {
         <CardContent>
           <Typography
             data-testid="jobTitle"
-            variant="body2"
-            color="text.secondary"
+            variant="body1"
+            color="text.Primary"
           >
             {advisor.jobTitle}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="text.primary">
             {advisor.desciption}
           </Typography>
         </CardContent>

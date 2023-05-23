@@ -11,6 +11,7 @@ import {
 import { useContext } from "react";
 import { AdvisorContext } from "../../context/AdvisorContext";
 
+
 function Filter() {
   const { status, languages, handleStatusChange, handleLanguageChange } =
     useContext(AdvisorContext);
@@ -18,7 +19,9 @@ function Filter() {
   return (
     <Box sx={{ display: "grid" }} data-testid="filter">
       <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-        <FormLabel component="legend">Status</FormLabel>
+        <FormLabel component="legend" sx={{ color: "#1976d2" }}>
+          Status
+        </FormLabel>
         <FormGroup>
           {Object.entries(status).map((stat) => {
             return (
@@ -39,7 +42,9 @@ function Filter() {
       </FormControl>
       <Divider />
       <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-        <FormLabel component="legend">Language</FormLabel>
+        <FormLabel component="legend" sx={{ color: "#1976d2" }}>
+          Languages
+        </FormLabel>
         <FormGroup>
           {Object.entries(languages).map((language, index) => {
             return (

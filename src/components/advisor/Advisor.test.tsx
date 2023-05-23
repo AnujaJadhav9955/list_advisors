@@ -9,9 +9,9 @@ describe("Testing Advisor component", () => {
     jobTitle: "Human Division Planner",
     badge: "https://avatars.githubusercontent.com/u/58219056",
     desciption: "philosopher, educator, entrepreneur",
-    status: "offline",
+    status: "Offline",
     review: 2,
-    languages: ["french", "spanish", "german", "english"],
+    languages: ["French", "Spanish", "German", "English"],
     image:
       "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1050.jpg",
   };

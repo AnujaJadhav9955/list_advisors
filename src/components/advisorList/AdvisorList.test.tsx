@@ -14,16 +14,16 @@ describe("Testing Context Consumer", () => {
   beforeEach(
     () =>
       (providerProps = {
-        status: { online: true, offline: false },
+        status: { Online: true, Offline: false },
         setSortBy: jest.fn(),
         sortBy: "rating",
         handleStatusChange: jest.fn(),
         handleLanguageChange: jest.fn(),
         languages: {
-          german: true,
-          english: false,
-          french: true,
-          spanish: true,
+          German: true,
+          English: false,
+          French: true,
+          Spanish: true,
         },
       })
   );
@@ -45,7 +45,7 @@ describe("Testing Context Consumer", () => {
     const mocks = {
       request: {
         query: LOAD_ADVISORS,
-        variables: { offset: 1, limit: 10 },
+        variables: { limit: 10 },
       },
 
       result: {
@@ -57,9 +57,9 @@ describe("Testing Context Consumer", () => {
               jobTitle: "Human Division Planner",
               badge: "https://avatars.githubusercontent.com/u/58219056",
               desciption: "philosopher, educator, entrepreneur",
-              status: "offline",
+              status: "Offline",
               review: 2,
-              languages: ["french", "spanish", "german", "english"],
+              languages: ["French", "Spanish", "German", "English"],
               image:
                 "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1050.jpg",
             },
@@ -69,9 +69,9 @@ describe("Testing Context Consumer", () => {
               jobTitle: "Central Mobility Specialist",
               badge: "https://avatars.githubusercontent.com/u/99633281",
               desciption: "smog lover, educator 🥞",
-              status: "offline",
+              status: "Offline",
               review: 2,
-              languages: ["spanish", "french", "english"],
+              languages: ["Spanish", "French", "English"],
               image: "https://avatars.githubusercontent.com/u/23840094",
             },
           ],

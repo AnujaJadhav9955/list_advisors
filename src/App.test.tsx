@@ -33,16 +33,16 @@ describe("Testing Context Consumer", () => {
   beforeEach(
     () =>
       (providerProps = {
-        status: { online: true, offline: false },
+        status: { Online: true, Offline: false },
         setSortBy: jest.fn(),
         sortBy: "rating",
         handleStatusChange: jest.fn(),
         handleLanguageChange: jest.fn(),
         languages: {
-          german: true,
-          english: false,
-          french: true,
-          spanish: true,
+          German: true,
+          English: false,
+          French: true,
+          Spanish: true,
         },
       })
   );

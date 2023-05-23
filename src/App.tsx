@@ -33,14 +33,14 @@ function App() {
   const [sortBy, setSortBy] = useState("");
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [status, setStateStatus] = React.useState({
-    online: false,
-    offline: false,
+    Online: false,
+    Offline: false,
   });
   const [languages, setStateLanguages] = React.useState({
-    german: false,
-    english: false,
-    french: false,
-    spanish: false,
+    German: false,
+    English: false,
+    French: false,
+    Spanish: false,
   });
   const client = new ApolloClient({
     cache: new InMemoryCache(),
@@ -96,7 +96,7 @@ function App() {
                 variant="h4"
                 noWrap
                 component="div"
-                sx={{ height: "60px", margin: "20px 0 20px 0" }}
+                sx={{ height: "60px", margin: "20px 0 0 0" }}
               >
                 Advisors
               </Typography>
@@ -114,8 +114,8 @@ function App() {
               width: { sm: `calc(100% - ${drawerWidth}px)` },
             }}
           >
-            <Toolbar />
-            <Toolbar />
+            <Toolbar sx={{ marginTop: "30px" }} />
+
             <AdvisorList />
           </Box>
         </Box>

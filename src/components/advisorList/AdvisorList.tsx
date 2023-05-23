@@ -12,28 +12,23 @@ const AdvisorList = () => {
   const { sortBy } = useContext(AdvisorContext);
   const { status, languages } = useContext(AdvisorContext);
   const [advisors, setAdvisors] = useState<AdvisorType[]>([]);
-  const [page, setPage] = useState(1);
 
   const { error, fetchMore } = useQuery(LOAD_ADVISORS, {
     variables: {
-      offset: page,
+      // offset: page,
       limit: 10,
     },
     onCompleted: (data) => {
       if (!advisors.length) {
         const { Advisors } = data;
         setAdvisors(Advisors);
-        setPage(page + 1);
       }
     },
   });
   const getMoreAdvisors = async () => {
-    const { data } = await fetchMore({
-      variables: { page: page },
-    });
+    const { data } = await fetchMore({});
     const { Advisors } = data;
     setAdvisors((prevAdvisors) => [...prevAdvisors, ...Advisors]);
-    setPage(page + 1);
   };
 
   const [filteredAdvisors, setFilteredAdvisors] =
@@ -44,12 +39,12 @@ const AdvisorList = () => {
     if (sortBy === "rating") {
       advisorsArray = [...advisorsArray].sort((a, b) => b.review - a.review);
     }
-    const { online, offline } = status;
+    const { Online, Offline } = status;
     advisorsArray = [...advisorsArray].filter((advisor) => {
-      if (offline && !online) {
-        return advisor.status === "offline";
-      } else if (online && !offline) {
-        return advisor.status === "online";
+      if (Offline && !Online) {
+        return advisor.status === "Offline";
+      } else if (Online && !Offline) {
+        return advisor.status === "Online";
       } else {
         return true;
       }
@@ -74,7 +69,7 @@ const AdvisorList = () => {
       data-testid={"scroller"}
       dataLength={advisors?.length}
       next={getMoreAdvisors}
-      hasMore={page < 20}
+      hasMore={true}
       loader={
         error ? (
           <h4>{error.message}</h4>
